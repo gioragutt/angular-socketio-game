@@ -1,5 +1,6 @@
 import * as socketIo from 'socket.io';
 import * as uuid from 'uuid';
+import { Server } from 'http';
 import { Player, Bullet, Position, InputData, MathMethods } from './index';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
@@ -32,7 +33,7 @@ export class GameServer {
     isRunning = false;
     gameLoopSubscription: Subscription;
 
-    constructor(server) {
+    constructor(server: Server) {
         this.io = socketIo(server);
         this.io.on(GameServer.EVENT_CONNECTION, (socket: SocketIO.Socket) => {
             this.onConnection(socket);
