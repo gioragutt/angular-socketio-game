@@ -1,54 +1,47 @@
-const Input = require('./input');
-const Entity = require('./entity');
+import { Input, InputData } from './input';
+import { Entity } from './entity';
+import { Position } from './kinematics';
 
 class Player extends Entity {
-    static get EVENT_UPDATE_INPUT() { return 'updateInput' };
-    static get EVENT_FIRE_BULLET() { return 'fireBullet'; }
-    static get EVENT_INPUT_SPACEPRESSED() { return 'spacePressed'; }
+    static EVENT_UPDATE_INPUT = 'updateInput';
+    static EVENT_FIRE_BULLET = 'fireBullet';
+    static EVENT_INPUT_SPACEPRESSED = 'spacePressed';
 
-    constructor(id) {
-        super({id});
-        this.input = new Input();
-        console.log(`initializing player with id: ${id}`) // todo: to debug
+    input = new Input();
+
+    constructor(id: string) {
+        super(id);
+        console.log(`initializing player with id: ${id}`); // todo: to debug
 
         this.input.on(Player.EVENT_INPUT_SPACEPRESSED, () => {
             this.emit(Player.EVENT_FIRE_BULLET);
-            console.log(`Player ${this.id} fired a bullet`)
-        })
+        });
 
-        this.on(Player.EVENT_UPDATE_INPUT, ({input, state}) => {
-            const event = {input, state};
-            this.input.updateInput({input, state});
-        })
+        this.on(Player.EVENT_UPDATE_INPUT, ({ input, state }: InputData) => {
+            this.updateInput({ input, state });
+        });
     }
 
-    updateInput({input, state}) {
-        this.input.updateInput({input, state});
+    updateInput(inputData: InputData): void {
+        this.input.updateInput(inputData);
     }
 
-    mouseMove({x, y}) {
-        this.input.mouseMove({x, y});
+    mouseMove(position: Position): void {
+        this.input.mouseMove(position);
     }
 
-    update() {
-        super.update()
+    update(): void {
         this.kinematics.updatePositionByInput(this.input);
     }
 
-    get position() {
+    get position(): Position {
         return {
             x: this.kinematics.x,
             y: this.kinematics.y
-        }
+        };
     }
 
-    get mousePosition() {
+    get mousePosition(): Position {
         return this.input.mousePosition;
     }
-
-    // data() {
-    //     return Object.assign({ mousePosition: this.input.mousePosition }, super.data());
-    // }
 }
-
-module.exports = Player;
