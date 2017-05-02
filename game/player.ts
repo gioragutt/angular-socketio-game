@@ -2,7 +2,7 @@ import { Input, InputData } from './input';
 import { Entity } from './entity';
 import { Position } from './kinematics';
 
-class Player extends Entity {
+export class Player extends Entity {
     static EVENT_UPDATE_INPUT = 'updateInput';
     static EVENT_FIRE_BULLET = 'fireBullet';
     static EVENT_INPUT_SPACEPRESSED = 'spacePressed';
