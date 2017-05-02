@@ -1,31 +1,27 @@
-const EventEmitter = require('events').EventEmitter;
+import { EventEmitter } from 'events';
+import { Position } from './kinematics';
 
-class Input extends EventEmitter {
-    static get INPUTS() { return ['left', 'right', 'up', 'down', 'space'] }; 
-    static get DEFAULT_INPUT_STATE() { return false };
-    static pressEventName(input) { return `${input}Pressed`; }
+export class Input extends EventEmitter {
+    static INPUTS = ['left', 'right', 'up', 'down', 'space'];
+    static DEFAULT_INPUT_STATE = false;
+    static DEFAULT_MOUSE_POSITION: Position = { x: 0, y: 0 };
+
+    left = Input.DEFAULT_INPUT_STATE;
+    right = Input.DEFAULT_INPUT_STATE;
+    up = Input.DEFAULT_INPUT_STATE;
+    down = Input.DEFAULT_INPUT_STATE;
+    space = Input.DEFAULT_INPUT_STATE;
+    mousePosition = Input.DEFAULT_MOUSE_POSITION;
 
     constructor() {
         super();
-
-        const defaultInputState = Input.DEFAULT_INPUT_STATE;
-        this.left = defaultInputState;
-        this.right = defaultInputState;
-        this.up = defaultInputState;
-        this.down = defaultInputState;
-        this.space = defaultInputState;
-
-        this.mousePosition = {
-            x: 0,
-            y: 0
-        };
     }
 
-    mouseMove({x, y}) {
-        this.mousePosition = {x, y};
+    mouseMove(mousePosition: Position): void {
+        this.mousePosition = mousePosition;
     }
 
-    updateInput({input, state}) {
+    updateInput(input: string, state: boolean): void {
         if (Input.INPUTS.indexOf(input) < 0) {
             console.error(`${input} is not stated in the INPUTS array`); // todo: chulk
         }
@@ -34,13 +30,11 @@ class Input extends EventEmitter {
         this[input] = state;
 
         if (shouldUpdate) {
-            this.emit(Input.pressEventName(input));
+            this.emit(`${input}Pressed`);
         }
     }
 
-    toString() {
+    toString(): string {
         return `[left: ${this.left}, right: ${this.right}, up: ${this.up}, down: ${this.down}, space: ${this.space}]`;
     }
 }
-
-module.exports = Input;
