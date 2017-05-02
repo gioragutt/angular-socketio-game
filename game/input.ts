@@ -1,6 +1,11 @@
 import { EventEmitter } from 'events';
 import { Position } from './kinematics';
 
+export interface InputData {
+    input: string;
+    state: boolean;
+}
+
 export class Input extends EventEmitter {
     static INPUTS = ['left', 'right', 'up', 'down', 'space'];
     static DEFAULT_INPUT_STATE = false;
@@ -21,16 +26,16 @@ export class Input extends EventEmitter {
         this.mousePosition = mousePosition;
     }
 
-    updateInput(input: string, state: boolean): void {
-        if (Input.INPUTS.indexOf(input) < 0) {
-            console.error(`${input} is not stated in the INPUTS array`); // todo: chulk
+    updateInput(inputData: InputData): void {
+        if (Input.INPUTS.indexOf(inputData.input) < 0) {
+            console.error(`${inputData.input} is not stated in the INPUTS array`); // todo: chulk
         }
 
-        const shouldUpdate = state && !this[input];
-        this[input] = state;
+        const shouldUpdate = inputData.state && !this[inputData.input];
+        this[inputData.input] = inputData.state;
 
         if (shouldUpdate) {
-            this.emit(`${input}Pressed`);
+            this.emit(`${inputData.input}Pressed`);
         }
     }
 
