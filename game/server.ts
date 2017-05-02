@@ -1,88 +1,100 @@
-const socketio = require('socket.io')
-const uuid = require('uuid');
-const Player = require('./player');
-const Bullet = require('./bullet');
+import * as socketIo from 'socket.io';
+import * as uuid from 'uuid';
+import { Player, Bullet, Position, InputData, MathMethods } from './index';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
-class GameServer {
-    static get EVENT_CONNECTION() { return 'connection'; }
-    static get EVENT_DISCONNECT() { return 'disconnect'; }
-    static get EVENT_KEYPRESS() { return 'keyPress'; }
-    static get EVENT_MOUSEMOVE() { return 'mouseMove'; }
-    static get EVENT_MOUSECLICK() { return 'mouseClick'; }
-    static get EVENT_GAMEUPDATE() { return 'gameUpdate'; }
-    static get GAME_LOOP_DELTA() { return 1000/60; } // 60 updates per second
-    static angleBetween(p1, p2) {
-        return Math.atan2(p2.y - p1.y, p2.x - p1.x);
-    }
+import 'rxjs/add/observable/defer';
+import 'rxjs/add/observable/interval';
+
+export interface IdMap<T> {
+     [id: string]: T;
+};
+
+export interface Client {
+    socket: SocketIO.Socket;
+    player: Player;
+}
+
+export class GameServer {
+    static EVENT_CONNECTION = 'connection';
+    static EVENT_DISCONNECT = 'disconnect';
+    static EVENT_KEYPRESS = 'keyPress';
+    static EVENT_MOUSEMOVE = 'mouseMove';
+    static EVENT_MOUSECLICK = 'mouseClick';
+    static EVENT_GAMEUPDATE = 'gameUpdate';
+    static UPDATES_PER_SECOND = 60;
+    static GAME_LOOP_DELTA = 1000 / GameServer.UPDATES_PER_SECOND;
+
+    clients: IdMap<Client> = {};
+    bullets: IdMap<Bullet> = {};
+    io: SocketIO.Server;
+    isRunning = false;
+    gameLoopSubscription: Subscription;
 
     constructor(server) {
-        this.clients = {};
-        this.bullets = {};
-        this.io = socketio(server, {});
-        this.io.on(GameServer.EVENT_CONNECTION, (socket) => {
+        this.io = socketIo(server);
+        this.io.on(GameServer.EVENT_CONNECTION, (socket: SocketIO.Socket) => {
             this.onConnection(socket);
-        })
-
-        this.isRunning = false;
-        this.gameLoopSubscription = undefined;
+        });
     }
 
-    onConnection(socket) {
-        console.log(`New connection from address: ${socket.conn.remoteAddress}`)
-        const player = this.createPlayer(socket);
+    onConnection(socket: SocketIO.Socket) {
+        console.log(`New connection from address: ${socket.conn.remoteAddress}`);
+        const player = this.createPlayer();
         this.playerEvents(socket, player);
         this.registerPlayer(socket, player);
     }
 
-    playerEvents(socket, player) {
+    playerEvents(socket: SocketIO.Socket, player: Player): void {
         socket.on(GameServer.EVENT_MOUSECLICK, () => {
-            const angle = GameServer.angleBetween(player.position, player.mousePosition);
-            const bullet = new Bullet({id: uuid(), sourceId: player.id, angle})
+            const angle = MathMethods.angleBetween(player.position, player.mousePosition);
+            const bullet = new Bullet(uuid(), angle, player.id);
             bullet.kinematics.setPosition(player.kinematics);
             this.registerBullet(bullet);
-        })
+        });
 
-        socket.on(GameServer.EVENT_KEYPRESS, (event) => {
+        socket.on(GameServer.EVENT_KEYPRESS, (event: InputData) => {
             if (this.isRunning) {
                 player.updateInput(event);
             }
         });
 
-        socket.on(GameServer.EVENT_MOUSEMOVE, (event) => {
+        socket.on(GameServer.EVENT_MOUSEMOVE, (event: { position: Position }) => {
             player.mouseMove(event.position);
-        })
+        });
 
         socket.on(GameServer.EVENT_DISCONNECT, this.disconnectPlayer(player.id));
     }
 
-    createPlayer(socket) {
+    createPlayer(): Player {
         const id = uuid();
         console.log(`Creating player with id: ${id}`); // todo: to debug
 
         return new Player(id);
     }
 
-    registerPlayer(socket, player) {
+    registerPlayer(socket: SocketIO.Socket, player: Player): void {
         console.log(`Connecting player ${player.id}`)
         this.clients[player.id] = { socket, player };
     }
 
-    registerBullet(bullet) {
+    registerBullet(bullet: Bullet): void {
         bullet.on(Bullet.EVENT_EXPIRE, () => {
-            delete this.bullets[bullet.id]
-        })
+            delete this.bullets[bullet.id];
+        });
         this.bullets[bullet.id] = bullet;
     }
 
-    disconnectPlayer(id) {
+    disconnectPlayer(id: string): () => void {
         return () => {
             console.log(`Disconnecting player ${id}`); // todo: to debug
             delete this.clients[id];
-        }
+        };
     }
 
-    gameLoop() {
-        const players = Object.values(this.clients).map(({player}) => {
+    gameLoop(): void {
+        const players = Object.values(this.clients).map(({player}: Client) => {
             player.update();
             player.kinematics.clampPosition({
                 width: 500,
@@ -91,32 +103,32 @@ class GameServer {
             return player.data();
         });
 
-        const bullets = Object.values(this.bullets).map(bullet => {
+        const bullets = Object.values(this.bullets).map((bullet: Bullet) => {
             bullet.update();
             return bullet.data();
         });
 
         const allUpdates = { players, bullets };
 
-        Object.values(this.clients).forEach(({socket, player}) => {
+        Object.values(this.clients).forEach(({socket, player}: Client) => {
             const update = Object.assign({mousePosition: player.mousePosition}, allUpdates);
             socket.emit(GameServer.EVENT_GAMEUPDATE, update);
         });
     }
 
-    run() {
+    run(): void {
         console.log('Starting game server!')
-        this.gameLoopSubscription = 
-            setInterval(() => { this.gameLoop(); },
-                        GameServer.GAME_LOOP_DELTA); 
-        this.isRunning = true;
+        this.gameLoopSubscription =
+            Observable.defer(() => {
+                this.isRunning = true;
+                return Observable.interval(GameServer.GAME_LOOP_DELTA);
+            }).subscribe(
+                (elapsed: number) => this.gameLoop(),
+                (error: any) => console.log(error),
+                () => { this.isRunning = false; });
     }
 
-    stop() {
-        console.log('Stopping game server!');
-        clearInterval(this.gameLoopSubscription);
-        this.isRunning = false;
+    stop(): void {
+        this.gameLoopSubscription.unsubscribe();
     }
 }
-
-module.exports = GameServer;
