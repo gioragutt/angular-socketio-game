@@ -1,14 +1,19 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "es3",
+        // "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "ES6",
         "noImplicitAny": false,
         "outDir": "built",
         "rootDir": ".",
-        "sourceMap": false,
-        "outFile": "built/server-bin.js"
+        "sourceMap": true,
+        "declaration": true,
+        "typeRoots": [
+            "node_modules/@types"
+        ]
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "**/*.d.ts"
     ]
 }
