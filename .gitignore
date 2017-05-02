@@ -39,3 +39,5 @@ jspm_packages
 # Angular Compiled Code
 src/app/**/*.js 
 src/app/**/*.map
+
+game/built/server-bin.js
