@@ -1,29 +1,23 @@
-const Entity = require('./entity');
-const Kinematics = require('./kinematics');
+import { Kinematics, Entity } from './entity';
 
-class Bullet extends Entity {
-    static get EVENT_UPDATE() { return 'update'; }
-    static get EVENT_EXPIRE() { return 'expire'; }
+export class Bullet extends Entity {
+    static EVENT_UPDATE = 'update';
+    static EVENT_EXPIRE = 'expire';
 
-    static angularKinematics(angleInRadians) {
-        const speedX = Math.cos(angleInRadians) * 10
-        const speedY = Math.sin(angleInRadians) * 10
+    lifespan = 100;
+    elapsedLifespan = 0;
+
+    static angularKinematics(angleInRadians: number): Kinematics {
+        const speedX = Math.cos(angleInRadians) * 10;
+        const speedY = Math.sin(angleInRadians) * 10;
         return new Kinematics(speedX, speedY);
     }
 
-    constructor({id, angle, sourceId}) {
-        super({
-            id,
-            kinematics: Bullet.angularKinematics(angle),
-            sourceId
-        });
-        
-        this.lifespan = 100;
-        this.elapsedLifespan = 0;
+    constructor(id: string, angle: number, sourceId: string) {
+        super(id, Bullet.angularKinematics(angle), sourceId);
     }
 
-    update() {
-        super.update();
+    update(): void {
         this.elapsedLifespan++;
 
         if (this.elapsedLifespan >= this.lifespan) {
@@ -33,5 +27,3 @@ class Bullet extends Entity {
         this.kinematics.updatePosition();
     }
 }
-
-module.exports = Bullet;
