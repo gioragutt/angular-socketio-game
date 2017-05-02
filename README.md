@@ -2,10 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
 
-## Running the game server
+# Running the game server
 
 Run `npm run build-game` to build the game client and server  
-Run `npm run run-game` to start the server (served on `http://localhost:3000`)
+Run `npm run run-game` to start the server (served on `http://localhost:3000`)  
 Run `npm run build-run-game` to execute both of the above, respectively
 
 ## Development server
