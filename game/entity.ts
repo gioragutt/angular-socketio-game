@@ -1,7 +1,8 @@
 import { Kinematics } from './kinematics';
 export { Kinematics } from './kinematics';
+import { EventEmitter } from 'events';
 
-export abstract class Entity extends NodeJS.EventEmitter {
+export abstract class Entity extends EventEmitter {
 
     constructor(public id: string,
                 public kinematics = new Kinematics(),
