@@ -1,8 +1,18 @@
+export interface Position {
+    x: number;
+    y: number;
+}
+
+export interface Dimention {
+    width: number;
+    height: number;
+}
+
 export class Kinematics {
     x = 0;
     y = 0;
 
-    static clamp(min, max, value) {
+    static clamp(min: number, max: number, value: number): number {
         return value < min ? min :
                value > max ? max :
                value;
@@ -10,7 +20,7 @@ export class Kinematics {
 
     constructor(public speedX = 10, public speedY = 10) { }
 
-    updatePositionByInput(input: any) {
+    updatePositionByInput(input: any): void {
         if (input.up) {
             this.y -= this.speedY;
         }
@@ -25,18 +35,17 @@ export class Kinematics {
         }
     }
 
-    setPosition({x, y}) {
-        this.x = x;
-        this.y = y;
+    setPosition(position: Position): void {
+        this.x = position.x;
+        this.y = position.y;
     }
 
-    clampPosition({width, height}) {
-        this.x = Kinematics.clamp(0, width, this.x);
-        this.y = Kinematics.clamp(0, height, this.y);
+    clampPosition(dimention: Dimention): void {
+        this.x = Kinematics.clamp(0, dimention.width, this.x);
+        this.y = Kinematics.clamp(0, dimention.height, this.y);
     }
 
-    updatePosition() {
-        // console.log(`Update position called without input`)
+    updatePosition(): void {
         this.y += this.speedY;
         this.x += this.speedX;
     }
