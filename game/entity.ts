@@ -1,16 +1,15 @@
-const Kinematics = require('./kinematics');
-const EventEmitter = require('events').EventEmitter;
+import { Kinematics } from './kinematics';
+export { Kinematics } from './kinematics';
 
-class Entity extends EventEmitter {
-    constructor({id, kinematics = new Kinematics(), sourceId = ''}) {
+export abstract class Entity extends NodeJS.EventEmitter {
+
+    constructor(public id: string,
+                public kinematics = new Kinematics(),
+                public sourceId = '') {
         super();
-        
-        this.kinematics = kinematics;
-        this.id = id;
-        this.sourceId = sourceId;
     }
 
-    data() {
+    data(): any {
         return {
             x: this.kinematics.x,
             y: this.kinematics.y,
@@ -18,9 +17,5 @@ class Entity extends EventEmitter {
         };
     }
 
-    update() {
-        // would be abstract or interfaced in TS
-    }
+    abstract update(): void;
 }
-
-module.exports = Entity;
