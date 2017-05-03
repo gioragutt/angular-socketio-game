@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { AioServerConnectionModule } from './aio-server-connection';
+import { AioGameModule } from './aio-game';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AioServerConnectionModule } from './aio-server-connection';
     HttpModule,
     AppRoutingModule,
     AioServerConnectionModule.forRoot(),
+    AioGameModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

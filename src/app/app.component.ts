@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AioServerConnectionService, ServerEvent } from './aio-server-connection';
+import { AioServerConnectionService, ServerEvent, EventArgs } from './aio-server-connection';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -12,6 +12,9 @@ export class AppComponent {
 
   @ServerEvent() gameUpdate$: Observable<any>;
 
-  constructor(private server: AioServerConnectionService) {
+  constructor(private server: AioServerConnectionService) { }
+
+  emitToServer(args: EventArgs) {
+    this.server.emit(args);
   }
 }

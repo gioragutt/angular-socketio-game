@@ -2,3 +2,4 @@
   {{title}}
 </h1>
 <router-outlet></router-outlet>
+<aio-game [gameData]="gameUpdate$ | async" (emitEvent)="emitToServer($event)"></aio-game>
