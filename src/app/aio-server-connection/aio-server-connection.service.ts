@@ -5,6 +5,8 @@ import { Subscriber } from 'rxjs/Subscriber';
 import { EventArgs } from './event-args';
 import 'rxjs/add/operator/share';
 
+import { environment } from '../../environments/environment';
+
 interface EventsCache {
   [eventName: string]: Observable<any>;
 };
@@ -21,7 +23,7 @@ export class AioServerConnectionService {
 
   constructor() {
     AioServerConnectionService._instance = this;
-    this.socket = socketIo();
+    this.socket = socketIo(environment.socketioEndpoint);
     console.log('AioServerConnectionService initialized!');
   }
 
