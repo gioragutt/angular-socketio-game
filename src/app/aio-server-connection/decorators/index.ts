@@ -1,5 +1,5 @@
-import { onEvent } from './onEvent';
+import { ServerEvent } from './server-event';
 
 export {
-    onEvent
+    ServerEvent
 };

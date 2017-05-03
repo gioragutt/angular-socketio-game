@@ -9,17 +9,18 @@ import { Observable } from 'rxjs/Observable';
 
 export type PropertyDecorator = (target: any, propertyKey: string) => void;
 
-export const onEvent = (eventName = ''): PropertyDecorator => {
+export const ServerEvent = (optionalEventName = ''): PropertyDecorator => {
     return (target: any, propertyKey: string) => {
-        let event = eventName;
-        if (!event) {
-            event = (propertyKey.lastIndexOf('$') === propertyKey.length - 1) ?
+        let eventName = optionalEventName;
+        if (!eventName) {
+            eventName = (propertyKey.lastIndexOf('$') === propertyKey.length - 1) ?
                     propertyKey.substring(0, propertyKey.length - 1) :
                     propertyKey;
         }
 
+        console.log(`Creating decorator for the ${eventName} event on property ${propertyKey}`);
         const getter = (): Observable<any> => {
-            return AioServerConnectionService.instance.on<any>(event);
+            return AioServerConnectionService.instance.on<any>(eventName);
         };
 
         if (delete target[propertyKey]) {
