@@ -2,6 +2,7 @@ import * as socketIo from 'socket.io-client';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
+import { EventArgs } from './event-args';
 import 'rxjs/add/operator/share';
 
 interface EventsCache {
@@ -36,11 +37,12 @@ export class AioServerConnectionService {
     return this.cache[eventName];
   }
 
-  emit(eventName: string, eventArgs: any, callback?: any): void {
-    if (callback && typeof (callback) === 'function') {
-      this.socket.emit(eventName, eventArgs, callback);
+  emit(args: EventArgs): void {
+    console.log('Service Emitting', args);
+    if (args.callback && typeof (args.callback) === 'function') {
+      this.socket.emit(args.name, args.data, args.callback);
     } else {
-      this.socket.emit(eventName, eventArgs);
+      this.socket.emit(args.name, args.data);
     }
   }
 }
