@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AioServerConnectionService } from './aio-server-connection';
+import { AioServerConnectionService, onEvent } from './aio-server-connection';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'aio-root',
@@ -9,9 +10,12 @@ import { AioServerConnectionService } from './aio-server-connection';
 export class AppComponent {
   title = 'aio works!';
 
+  @onEvent() gameUpdate$: Observable<any>;
+  @onEvent('gameUpdate') gameUpdate2$: Observable<number>;
+
   constructor(private server: AioServerConnectionService) {
-    server.on<any>('gameUpdate').subscribe((data: any) => {
-      console.log('got game update');
+    this.gameUpdate$.subscribe((data: any) => {
+      console.log('got game update1');
     });
   }
 }

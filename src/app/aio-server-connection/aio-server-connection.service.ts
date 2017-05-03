@@ -10,11 +10,16 @@ interface EventsCache {
 
 @Injectable()
 export class AioServerConnectionService {
+  static get instance() {
+    return AioServerConnectionService._instance;
+  }
+  private static _instance: AioServerConnectionService;
 
   private socket: SocketIOClient.Socket;
   private cache: EventsCache = {};
 
   constructor() {
+    AioServerConnectionService._instance = this;
     this.socket = socketIo();
     console.log('AioServerConnectionService initialized!');
   }
