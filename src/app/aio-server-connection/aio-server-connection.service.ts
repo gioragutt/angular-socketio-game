@@ -2,7 +2,6 @@ import * as socketIo from 'socket.io-client';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
-import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/share';
 
 interface EventsCache {
@@ -21,15 +20,13 @@ export class AioServerConnectionService {
   }
 
   on<T>(eventName: string): Observable<T> {
-    if (this.cache[eventName]) {
-      return this.cache[eventName] as Observable<T>;
+    if (!this.cache[eventName]) {
+      this.cache[eventName] = new Observable<T>((subscriber: Subscriber<T>) => {
+        this.socket.on(eventName, (eventArgs) => {
+          subscriber.next(<T>eventArgs);
+        });
+      }).share();
     }
-
-    this.cache[eventName] = new Observable<T>((subscriber: Subscriber<T>) => {
-      this.socket.on(eventName, (eventArgs) => {
-        subscriber.next(<T>eventArgs);
-      });
-    }).share();
 
     return this.cache[eventName];
   }
