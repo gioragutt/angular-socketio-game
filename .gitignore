@@ -44,3 +44,4 @@ game/built/server-bin.js
 game/built/*.js
 game/built/*
 dist/*
+.vscode
