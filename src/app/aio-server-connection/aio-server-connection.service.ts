@@ -38,7 +38,6 @@ export class AioServerConnectionService {
   }
 
   emit(args: EventArgs): void {
-    console.log('Service Emitting', args);
     if (args.callback && typeof (args.callback) === 'function') {
       this.socket.emit(args.name, args.data, args.callback);
     } else {

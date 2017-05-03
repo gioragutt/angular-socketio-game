@@ -1,14 +1,11 @@
 import {
   Component,
-  OnInit, OnChanges, OnDestroy, SimpleChanges,
+  OnChanges, SimpleChanges,
   ViewChild, ElementRef, HostListener,
   Input, Output, EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
 import { EventArgs } from '../../aio-server-connection';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/observable/fromevent';
 
 const codes = {
   68: 'right', // d
@@ -37,7 +34,7 @@ const getMousePosition = (canvas: ElementRef, event: MouseEvent): Position => {
   styleUrls: ['./aio-game.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AioGameComponent implements OnInit, OnChanges, OnDestroy {
+export class AioGameComponent implements OnChanges {
 
   @Input() height = 500;
   @Input() width = 500;
@@ -47,46 +44,6 @@ export class AioGameComponent implements OnInit, OnChanges, OnDestroy {
 
   @ViewChild('game') canvasRef: ElementRef;
   drawing: CanvasRenderingContext2D;
-
-  subscriptions: Subscription[] = [];
-
-  ngOnInit() {
-    this.drawing = this.canvasRef.nativeElement.getContext('2d');
-    this.registerEmitEvents();
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
-
-  registerEmitEvents() {
-
-    const emitKeyPress = (state) => (event) => {
-      const keycode = event.which || event.keyCode;
-
-      const input = codes[keycode];
-      if (input === undefined) {
-        return;
-      }
-      const eventArgs = { name: 'keyPress', data: { input, state } };
-      console.log('Emitting key-press', eventArgs);
-      this.emitEvent.emit(eventArgs);
-    };
-
-    const canvas = this.canvasRef.nativeElement;
-    this.subscriptions.push(Observable.fromEvent(canvas, 'onmousemove')
-      .subscribe((event: MouseEvent) => {
-        const position = getMousePosition(this.canvasRef, event);
-        const eventArgs = { name: 'mouseMove', data: { position } };
-        console.log('Emitting mouse-move', eventArgs);
-        this.emitEvent.emit(eventArgs);
-      }));
-    this.subscriptions.push(Observable.fromEvent(canvas, 'onclick')
-      .subscribe(() => {
-        console.log('Emitting mouse-click');
-        this.emitEvent.emit({ name: 'mouseClick' });
-      }));
-  }
 
   emitKeyPress(event: KeyboardEvent, state: boolean) {
     const keycode = event.which || event.keyCode;
@@ -107,6 +64,16 @@ export class AioGameComponent implements OnInit, OnChanges, OnDestroy {
   @HostListener('document:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     this.emitKeyPress(event, true);
+  }
+
+  onMouseClick() {
+    this.emitEvent.emit({ name: 'mouseClick' });
+  }
+
+  onMouseMove(event: MouseEvent) {
+      const position = getMousePosition(this.canvasRef, event);
+      const eventArgs = { name: 'mouseMove', data: { position } };
+      this.emitEvent.emit(eventArgs);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -149,6 +116,6 @@ export class AioGameComponent implements OnInit, OnChanges, OnDestroy {
 
   drawPlayer(position: Position, name: string) {
     const shortName = name.substring(0, 6);
-    this.drawing.fillText(name, position.x - 30, position.y - 5);
+    this.drawing.fillText(shortName, position.x - 30, position.y - 5);
   }
 }
