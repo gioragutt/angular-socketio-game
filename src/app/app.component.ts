@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AioServerConnectionService } from './aio-server-connection';
 
 @Component({
   selector: 'aio-root',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'aio works!';
+
+  constructor(private server: AioServerConnectionService) {
+    server.on<any>('gameUpdate').subscribe((data: any) => {
+      console.log('got game update');
+    });
+  }
 }
