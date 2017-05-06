@@ -87,9 +87,11 @@ export class AioGameComponent implements OnChanges {
 
     const { players, bullets, mousePosition } = this.gameData;
 
-    players.forEach(player => this.drawPlayer({
-      x: player.x, y: player.y
-    }, player.id));
+    players.forEach((player, index) => {
+      const name = player.id.substring(0, 6);
+      this.drawPlayer({ x: player.x, y: player.y }, name);
+      this.drawing.fillText(name, 10, 15 * (index + 1));
+    });
 
     bullets.forEach(bullet => this.drawBullet(bullet));
 
@@ -115,7 +117,6 @@ export class AioGameComponent implements OnChanges {
   }
 
   drawPlayer(position: Position, name: string) {
-    const shortName = name.substring(0, 6);
-    this.drawing.fillText(shortName, position.x - 30, position.y - 5);
+    this.drawing.fillText(name, position.x - 30, position.y - 5);
   }
 }

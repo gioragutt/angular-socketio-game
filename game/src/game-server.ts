@@ -24,6 +24,8 @@ export class GameServer {
     static EVENT_MOUSEMOVE = 'mouseMove';
     static EVENT_MOUSECLICK = 'mouseClick';
     static EVENT_GAMEUPDATE = 'gameUpdate';
+    static EVENT_MESSAGE = 'message';
+
     static UPDATES_PER_SECOND = 60;
     static GAME_LOOP_DELTA = 1000 / GameServer.UPDATES_PER_SECOND;
 
@@ -35,8 +37,14 @@ export class GameServer {
 
     constructor(server: Server) {
         this.io = socketIo(server);
-        this.io.on(GameServer.EVENT_CONNECTION, (socket: SocketIO.Socket) => {
+        this.io.on(GameServer.EVENT_CONNECTION, (socket: SocketIO.Socket, callback?: any) => {
             this.onConnection(socket);
+            if (callback) {
+                callback({
+                    width: 700,
+                    height: 700
+                });
+            }
         });
     }
 
@@ -66,17 +74,22 @@ export class GameServer {
         });
 
         socket.on(GameServer.EVENT_DISCONNECT, this.disconnectPlayer(player.id));
+        socket.on(GameServer.EVENT_MESSAGE, (message) => {
+            this.io.emit('message', {
+                source: player.id,
+                message
+            });
+        })
     }
 
     createPlayer(): Player {
         const id = uuid();
         console.log(`Creating player with id: ${id}`); // todo: to debug
-
         return new Player(id);
     }
 
     registerPlayer(socket: SocketIO.Socket, player: Player): void {
-        console.log(`Connecting player ${player.id}`)
+        console.log(`Connecting player ${player.id}`);
         this.clients[player.id] = { socket, player };
     }
 
@@ -118,7 +131,7 @@ export class GameServer {
     }
 
     run(): void {
-        console.log('Starting game server!')
+        console.log('Starting game server!');
         this.gameLoopSubscription =
             Observable.defer(() => {
                 this.isRunning = true;

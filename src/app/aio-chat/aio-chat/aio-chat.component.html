@@ -1,0 +1,8 @@
+<div class="chat-container">
+  <div class="messages-list">
+    <aio-messages-list [messages]="messages"></aio-messages-list>
+  </div>  
+  <div class="message-input">
+    <aio-message-input (sendMessage)="sendMessage($event)"></aio-message-input>
+  </div>
+</div>

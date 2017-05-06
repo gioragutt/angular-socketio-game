@@ -1,0 +1,43 @@
+md-sidenav {
+    background: #fafafa;
+    min-width: 320px;
+    max-width: 320px;
+}
+
+.sidenav-content {
+    height: 100%;
+}
+
+.game-container {
+    width: 550px;
+}
+
+.justify-center {
+    display: flex; 
+    justify-content: center;
+}
+
+.flex-grid {
+    display: flex;
+    height: calc(100% - 64px);
+}
+
+.flex-col {
+    flex: 1;
+}
+
+.chat-col {
+    max-width: 340px;
+    min-width: 200px;
+    margin-left: 20px;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 
+            0 3px 1px -2px rgba(0,0,0,.2),
+            0 2px 2px 0 rgba(0,0,0,.14),
+            0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+@media (max-width: 920px) {
+    .chat-col {
+        display: none;
+    }
+}

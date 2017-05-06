@@ -1,0 +1,16 @@
+md-input-container {
+    width: 100%;
+}
+
+.chat-message-input {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.input-textarea {
+    flex: 1;
+    max-height: 50px;
+    margin-bottom: 10px;
+    width: 100%;
+}

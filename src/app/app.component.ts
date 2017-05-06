@@ -8,11 +8,13 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
   title = 'aio works!';
 
   @ServerEvent() gameUpdate$: Observable<any>;
 
-  constructor(private server: AioServerConnectionService) { }
+  constructor(private server: AioServerConnectionService) {
+  }
 
   emitToServer(args: EventArgs) {
     this.server.emit(args);

@@ -1,0 +1,11 @@
+<div class="chat-message-input">
+  <md-input-container>
+    <textarea mdInput
+              (keyup.enter)="onSubmit()"
+              type="text"
+              placeholder="Message"
+              #messageInput
+              class="input-textarea"></textarea>
+  </md-input-container>
+  <button md-button color="primary" type="button" (click)="onSubmit()">Send</button>
+</div>
