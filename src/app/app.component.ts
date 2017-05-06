@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { AioServerConnectionService, ServerEvent, EventArgs } from './aio-server-connection';
 import { Observable } from 'rxjs/Observable';
+import { AioServerConnectionService, ServerEvent, EventArgs } from './aio-server-connection';
+import { GameInputDisableService } from './shared';
 
 @Component({
   selector: 'aio-root',
@@ -13,7 +14,9 @@ export class AppComponent {
 
   @ServerEvent() gameUpdate$: Observable<any>;
 
-  constructor(private server: AioServerConnectionService) {
+  constructor(
+    private server: AioServerConnectionService,
+    public gameInput: GameInputDisableService) {
   }
 
   emitToServer(args: EventArgs) {

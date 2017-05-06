@@ -9,7 +9,7 @@ import { GameInputDisableService } from './game-input-disable.service';
   declarations: []
 })
 export class SharedModule {
-  forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
       providers: [GameInputDisableService]

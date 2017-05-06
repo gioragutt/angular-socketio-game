@@ -1,5 +1,5 @@
 <div class="app-wrapper">
-  
+
   <md-toolbar color="primary" class="navbar">
     <h3>
       <md-icon>tag_faces</md-icon>
@@ -20,7 +20,10 @@
           <md-card-subtitle>developed by giora</md-card-subtitle>
         </md-card-header>
         <md-card-content class="justify-center">
-          <aio-game [gameData]="gameUpdate$ | async" (emitEvent)="emitToServer($event)"></aio-game>
+          <aio-game [gameData]="gameUpdate$ | async"
+                    (emitEvent)="emitToServer($event)"
+                    [disableInput]="gameInput.shouldDisable() | async"
+          ></aio-game>
         </md-card-content>
       </md-card>
     </div>

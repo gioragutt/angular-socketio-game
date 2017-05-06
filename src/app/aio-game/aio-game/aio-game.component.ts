@@ -36,6 +36,7 @@ const getMousePosition = (canvas: ElementRef, event: MouseEvent): Position => {
 })
 export class AioGameComponent implements OnChanges {
 
+  @Input() disableInput = false;
   @Input() height = 500;
   @Input() width = 500;
   @Input() cursorSize = 5;
@@ -58,11 +59,17 @@ export class AioGameComponent implements OnChanges {
 
   @HostListener('document:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
+    if (this.disableInput) {
+      return;
+    }
     this.emitKeyPress(event, false);
   }
 
   @HostListener('document:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
+    if (this.disableInput) {
+      return;
+    }
     this.emitKeyPress(event, true);
   }
 

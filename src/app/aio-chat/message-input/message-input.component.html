@@ -4,6 +4,8 @@
               (keyup.enter)="onSubmit()"
               type="text"
               placeholder="Message"
+              (focus)="gameInput.disableInput()"
+              (focusout)="gameInput.enableInput()"
               #messageInput
               class="input-textarea"></textarea>
   </md-input-container>

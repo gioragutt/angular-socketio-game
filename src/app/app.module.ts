@@ -15,7 +15,7 @@ import {
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
+import { SharedModule } from './shared';
 import { AioServerConnectionModule } from './aio-server-connection';
 import { AioGameModule } from './aio-game';
 import { AioChatModule } from './aio-chat';
@@ -30,6 +30,7 @@ import { AioChatModule } from './aio-chat';
     HttpModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    SharedModule.forRoot(),
     AioServerConnectionModule.forRoot(),
     AioGameModule,
     AioChatModule,
