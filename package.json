@@ -11,7 +11,8 @@
     "e2e": "ng e2e",
     "build-game": "npm run build && cd game && npm run tsc",
     "run-game": "node game/built/app.js",
-    "build-run-game": "npm run build-game && npm run run-game"
+    "brg": "npm run build-game && npm run run-game",
+    "brgs": "cd game && npm run tsc && node built/app.js"
   },
   "private": true,
   "dependencies": {

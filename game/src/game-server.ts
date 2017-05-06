@@ -25,6 +25,7 @@ export class GameServer {
     static EVENT_MOUSECLICK = 'mouseClick';
     static EVENT_GAMEUPDATE = 'gameUpdate';
     static EVENT_MESSAGE = 'message';
+    static EVENT_INITIALGAMEDATA = 'initialGameData';
 
     static UPDATES_PER_SECOND = 60;
     static GAME_LOOP_DELTA = 1000 / GameServer.UPDATES_PER_SECOND;
@@ -39,12 +40,6 @@ export class GameServer {
         this.io = socketIo(server);
         this.io.on(GameServer.EVENT_CONNECTION, (socket: SocketIO.Socket, callback?: any) => {
             this.onConnection(socket);
-            if (callback) {
-                callback({
-                    width: 700,
-                    height: 700
-                });
-            }
         });
     }
 
@@ -53,6 +48,9 @@ export class GameServer {
         const player = this.createPlayer();
         this.playerEvents(socket, player);
         this.registerPlayer(socket, player);
+        socket.emit(GameServer.EVENT_INITIALGAMEDATA, {
+            id: player.id
+        });
     }
 
     playerEvents(socket: SocketIO.Socket, player: Player): void {
@@ -79,7 +77,7 @@ export class GameServer {
                 source: player.id,
                 message
             });
-        })
+        });
     }
 
     createPlayer(): Player {

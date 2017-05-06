@@ -24,6 +24,9 @@ export class AioServerConnectionService {
   constructor() {
     AioServerConnectionService._instance = this;
     this.socket = socketIo(environment.socketioEndpoint);
+    this.socket.on('initialGameData', (data) => {
+      console.log('Connection data', data);
+    });
     console.log('AioServerConnectionService initialized!');
   }
 
