@@ -1,6 +1,13 @@
 <div class="chat-container">
   <div class="messages-list">
-    <aio-messages-list [messages]="messages"></aio-messages-list>
+    <div class="scroll">
+      <div class="tse-scroll-content">
+        <!-- scroll bar to be here, but this is a library -->
+        <div class="tse-content">
+          <aio-messages-list [messages]="messages"></aio-messages-list>
+        </div>
+      </div>
+    </div>
   </div>  
   <div class="message-input">
     <aio-message-input (sendMessage)="sendMessage($event)"></aio-message-input>

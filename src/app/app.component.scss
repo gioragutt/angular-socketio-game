@@ -1,11 +1,16 @@
-md-sidenav {
-    background: #fafafa;
-    min-width: 320px;
-    max-width: 320px;
+.app-wrapper {
+    overflow: hidden;
+    background: white;
+    position: absolute;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
-.sidenav-content {
+.app-body {
     height: 100%;
+    position: relative;
 }
 
 .game-container {
@@ -17,13 +22,15 @@ md-sidenav {
     justify-content: center;
 }
 
-.flex-grid {
-    display: flex;
-    height: calc(100% - 64px);
-}
-
-.flex-col {
-    flex: 1;
+.main-col {
+    position: relative;
+    height: 100%;
+    min-width: 550px;
+    overflow: hidden;
+    // margin-left: 240px;
+    margin-right: 340px;
+    z-index: 2;
+    box-sizing: border-box;
 }
 
 .chat-col {
@@ -34,10 +41,27 @@ md-sidenav {
             0 3px 1px -2px rgba(0,0,0,.2),
             0 2px 2px 0 rgba(0,0,0,.14),
             0 1px 5px 0 rgba(0,0,0,.12);
+
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 340px;
+    z-index: 3;
+    background: #efeef1;
 }
 
-@media (max-width: 920px) {
+@media (max-width: 900px) {
     .chat-col {
         display: none;
     }
+}
+
+// Navbar
+
+.navbar {
+    top: 0 !important;
+    z-index: 1000;
+    width: 100%;
+    position: fixed;
 }

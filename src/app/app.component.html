@@ -1,27 +1,34 @@
-<md-toolbar color="primary">
-  <h3>
-    <md-icon>tag_faces</md-icon>
-    Angular Socket.IO Game!
-  </h3>
-</md-toolbar>
-<router-outlet></router-outlet>
+<div class="app-wrapper">
+  
+  <md-toolbar color="primary" class="navbar">
+    <h3>
+      <md-icon>tag_faces</md-icon>
+      Angular Socket.IO Game!
+    </h3>
+  </md-toolbar>
+  <router-outlet></router-outlet>
 
-<div class="flex-grid">
-  <div class="flex-col justify-center">
-    <md-card class="game-container">
-      <md-card-header>
-        <md-icon md-card-avatar>toys</md-icon>
-        <md-card-title>
-          This is a game
-        </md-card-title>
-        <md-card-subtitle>developed by giora</md-card-subtitle>
-      </md-card-header>
-      <md-card-content class="justify-center">
-        <aio-game [gameData]="gameUpdate$ | async" (emitEvent)="emitToServer($event)"></aio-game>
-      </md-card-content>
-    </md-card>
+  <div class="app-body">
+
+    <div class="justify-center main-col">
+      <md-card class="game-container">
+        <md-card-header>
+          <md-icon md-card-avatar>toys</md-icon>
+          <md-card-title>
+            This is a game
+          </md-card-title>
+          <md-card-subtitle>developed by giora</md-card-subtitle>
+        </md-card-header>
+        <md-card-content class="justify-center">
+          <aio-game [gameData]="gameUpdate$ | async" (emitEvent)="emitToServer($event)"></aio-game>
+        </md-card-content>
+      </md-card>
+    </div>
+
+    <div class="chat-col">
+      <aio-chat></aio-chat>
+    </div>
+
   </div>
-  <div class="flex-col chat-col">
-    <aio-chat></aio-chat>
-  </div>
+
 </div>
