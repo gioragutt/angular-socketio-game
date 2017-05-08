@@ -53,6 +53,8 @@ export class AioChatService {
       message.message = `New Played Connected: ${message.source}`;
       message.source = 'GameServer';
       message.color = '#010101';
+    } else {
+      message.source = message.source.substring(0, 6);
     }
   }
 
