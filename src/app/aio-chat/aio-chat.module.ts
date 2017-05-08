@@ -8,6 +8,7 @@ import {
   MdListModule,
   MdInputModule,
   MdButtonModule,
+  MdIconModule,
 } from '@angular/material';
 import { MessagesListItemComponent } from './messages-list-item/messages-list-item.component';
 
@@ -17,7 +18,8 @@ import { MessagesListItemComponent } from './messages-list-item/messages-list-it
     FormsModule,
     MdListModule,
     MdInputModule,
-    MdButtonModule
+    MdButtonModule,
+    MdIconModule,
   ],
   declarations: [AioChatComponent, MessageInputComponent, MessagesListComponent, MessagesListItemComponent],
   exports: [AioChatComponent]
