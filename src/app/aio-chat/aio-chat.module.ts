@@ -11,6 +11,7 @@ import {
   MdIconModule,
 } from '@angular/material';
 import { MessagesListItemComponent } from './messages-list-item/messages-list-item.component';
+import { AioChatService } from './aio-chat.service';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { MessagesListItemComponent } from './messages-list-item/messages-list-it
     MdIconModule,
   ],
   declarations: [AioChatComponent, MessageInputComponent, MessagesListComponent, MessagesListItemComponent],
+  providers: [AioChatService],
   exports: [AioChatComponent]
 })
 export class AioChatModule { }

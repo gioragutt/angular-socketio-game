@@ -4,7 +4,7 @@
       <div class="tse-scroll-content">
         <!-- scroll bar to be here, but this is a library -->
         <div class="tse-content">
-          <aio-messages-list [messages]="messages"></aio-messages-list>
+          <aio-messages-list [messages]="chatMessages$ | async"></aio-messages-list>
         </div>
       </div>
     </div>

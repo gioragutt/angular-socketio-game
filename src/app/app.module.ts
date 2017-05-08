@@ -19,6 +19,7 @@ import { SharedModule } from './shared';
 import { AioServerConnectionModule } from './aio-server-connection';
 import { AioGameModule } from './aio-game';
 import { AioChatModule } from './aio-chat';
+import { AioStoreModule } from './aio-store';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { AioChatModule } from './aio-chat';
     AioServerConnectionModule.forRoot(),
     AioGameModule,
     AioChatModule,
+    AioStoreModule.forRoot(),
     MdToolbarModule,
     MdIconModule,
     MdCardModule,
