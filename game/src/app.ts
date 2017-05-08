@@ -19,19 +19,20 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
 });
 
 // Point static path to dist
-app.use(express.static(path.join(__dirname, '../../dist')));
+app.use(express.static(__dirname));
 
 // Catch all other routes and return the index file
 app.get('*', (req: express.Request, res: express.Response) => {
-  res.sendFile(path.join(__dirname, '../../dist/index.html'));
+  res.sendFile(path.join(__dirname, './index.html'));
 });
 
 // Get port from environment and store in Express.
 const port = process.env.PORT || '3000';
 app.set('port', port);
 
+const host = '0.0.0.0';
 const server: http.Server = http.createServer(app);
-server.listen(port, () => console.log(`Server running on localhost:${port}`));
+server.listen(port, host, () => console.log(`Server running on ${host}:${port}`));
 
 const gameServer = new GameServer(server);
 gameServer.run();

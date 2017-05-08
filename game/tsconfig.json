@@ -4,7 +4,7 @@
         "moduleResolution": "node",
         "target": "es5",
         "noImplicitAny": false,
-        "outDir": "built",
+        "outDir": "../dist/",
         "rootDir": "src",
         "sourceMap": false,
         "declaration": false,

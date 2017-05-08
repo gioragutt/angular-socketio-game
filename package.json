@@ -9,10 +9,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-game": "npm run build && cd game && npm run tsc",
-    "run-game": "node game/built/app.js",
+    "build-game": "npm run build && cd game && npm run bs",
+    "run-game": "node dist/app.js",
     "brg": "npm run build-game && npm run run-game",
-    "brgs": "cd game && npm run tsc && node built/app.js"
+    "brgs": "cd game && npm run bs && cd .. && npm run run-game"
   },
   "private": true,
   "dependencies": {
