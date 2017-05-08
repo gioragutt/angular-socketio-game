@@ -36,6 +36,14 @@ export class GameServer {
     isRunning = false;
     gameLoopSubscription: Subscription;
 
+    sendMessageToUsers(source: string, message: string, type: 'message' | 'playerConnected') {
+        this.io.emit(GameServer.EVENT_MESSAGE, {
+            source,
+            message,
+            type
+        });
+    }
+
     constructor(server: Server) {
         this.io = socketIo(server);
         this.io.on(GameServer.EVENT_CONNECTION, (socket: SocketIO.Socket, callback?: any) => {
@@ -51,6 +59,7 @@ export class GameServer {
         socket.emit(GameServer.EVENT_INITIALGAMEDATA, {
             id: player.id
         });
+        this.sendMessageToUsers(player.id, '', 'playerConnected');
     }
 
     playerEvents(socket: SocketIO.Socket, player: Player): void {
@@ -73,10 +82,7 @@ export class GameServer {
 
         socket.on(GameServer.EVENT_DISCONNECT, this.disconnectPlayer(player.id));
         socket.on(GameServer.EVENT_MESSAGE, (message) => {
-            this.io.emit('message', {
-                source: player.id,
-                message
-            });
+            this.sendMessageToUsers(player.id, message, 'message');
         });
     }
 
