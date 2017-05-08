@@ -27,7 +27,6 @@
     height: 100%;
     min-width: 550px;
     overflow: hidden;
-    // margin-left: 240px;
     margin-right: 340px;
     z-index: 2;
     box-sizing: border-box;
@@ -54,6 +53,10 @@
 @media (max-width: 900px) {
     .chat-col {
         display: none;
+    }
+
+    .main-col {
+        margin-right: 0;
     }
 }
 

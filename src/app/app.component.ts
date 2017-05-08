@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AioServerConnectionService, ServerEvent, EventArgs } from './aio-server-connection';
+import { AioServerConnectionService, ServerEvent, EventArgs, ConnectionData } from './aio-server-connection';
 import { GameInputDisableService } from './shared';
 
 @Component({
@@ -9,14 +9,13 @@ import { GameInputDisableService } from './shared';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
-  title = 'aio works!';
-
   @ServerEvent() gameUpdate$: Observable<any>;
+  connectionData: ConnectionData;
 
   constructor(
     private server: AioServerConnectionService,
     public gameInput: GameInputDisableService) {
+      server.connectionData.subscribe(data => this.connectionData = data);
   }
 
   emitToServer(args: EventArgs) {

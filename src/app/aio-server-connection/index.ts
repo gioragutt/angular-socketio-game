@@ -1,11 +1,4 @@
-import { AioServerConnectionService } from './aio-server-connection.service';
-import { AioServerConnectionModule } from './aio-server-connection.module';
-import { ServerEvent } from './decorators';
-import { EventArgs } from './event-args';
-
-export {
-    EventArgs,
-    AioServerConnectionModule,
-    AioServerConnectionService,
-    ServerEvent,
-}
+export * from './aio-server-connection.service';
+export * from './aio-server-connection.module';
+export * from './decorators';
+export * from './event-args';
