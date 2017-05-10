@@ -8,4 +8,5 @@ import { Position } from './position';
  * more data will be added to this interface
  */
 export interface Bullet extends Position {
+    id: string;
 }
