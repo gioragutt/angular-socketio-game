@@ -12,7 +12,7 @@ export interface DiffResult<T> {
     deletes: T[];
 };
 
-export type DiffMethod<T> = (oldState: T[], newState: T[]) => DiffResult<T>;
+export type DiffMethod = <T>(oldState: T[], newState: T[], keyMethod: KeyMethod<T>) => DiffResult<T>;
 
 /**
  * diffMethod
@@ -20,7 +20,7 @@ export type DiffMethod<T> = (oldState: T[], newState: T[]) => DiffResult<T>;
  * @param oldState array of items indicating collection before update
  * @param oldState array of items indicating collection before update
  */
-export const diffMethod = <T>(oldState: T[], newState: T[], keyMethod: KeyMethod<T>): DiffResult<T> => {
+export const diffMethod: DiffMethod = <T>(oldState: T[], newState: T[], keyMethod: KeyMethod<T>): DiffResult<T> => {
     const newKeys = _.map(newState, keyMethod);
     const oldKeys = _.map(oldState, keyMethod);
 
