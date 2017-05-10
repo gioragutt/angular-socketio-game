@@ -4,6 +4,7 @@ import { Server } from 'http';
 import { Player, Bullet, Position, InputData, MathMethods } from './index';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import * as _ from 'lodash';
 
 import 'rxjs/add/observable/defer';
 import 'rxjs/add/observable/interval';
@@ -112,7 +113,7 @@ export class GameServer {
     }
 
     gameLoop(): void {
-        const players = Object.values(this.clients).map(({player}: Client) => {
+        const players = _.values(this.clients).map(({player}: Client) => {
             player.update();
             player.kinematics.clampPosition({
                 width: 500,
@@ -121,14 +122,14 @@ export class GameServer {
             return player.data();
         });
 
-        const bullets = Object.values(this.bullets).map((bullet: Bullet) => {
+        const bullets = _.values(this.bullets).map((bullet: Bullet) => {
             bullet.update();
             return bullet.data();
         });
 
         const allUpdates = { players, bullets };
 
-        Object.values(this.clients).forEach(({socket, player}: Client) => {
+        _.values(this.clients).forEach(({socket, player}: Client) => {
             const update = Object.assign({mousePosition: player.mousePosition}, allUpdates);
             socket.emit(GameServer.EVENT_GAMEUPDATE, update);
         });
