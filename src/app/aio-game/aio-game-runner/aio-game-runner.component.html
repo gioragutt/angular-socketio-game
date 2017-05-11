@@ -1,0 +1,12 @@
+<md-card class="game-container">
+  <md-card-header>
+    <md-icon md-card-avatar>toys</md-icon>
+    <md-card-title>
+      Game window
+    </md-card-title>
+    <md-card-subtitle>My id is <b>{{connectionData.id}}</b></md-card-subtitle>
+  </md-card-header>
+  <md-card-content class="justify-center">
+    <aio-game [gameData]="gameUpdate$ | async" (emitEvent)="emitToServer($event)" [disableInput]="gameInput.shouldDisable() | async"></aio-game>
+  </md-card-content>
+</md-card>
