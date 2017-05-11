@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AioGameComponent } from './aio-game';
+import { AioGameRunnerComponent } from './aio-game';
 
 const routes: Routes = [
   {
-    path: '', // component: AioGameComponent,
-    children: []
+    path: '', component: AioGameRunnerComponent
   },
   {
     path: '**', pathMatch: 'full', redirectTo: '/'
