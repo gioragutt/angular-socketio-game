@@ -4,9 +4,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 # Running the game server
 
-Run `npm run build-game` to build the game client and server  
-Run `npm run run-game` to start the server (served on `http://localhost:3000`)  
-Run `npm run build-run-game` to execute both of the above, respectively
+Run `npm run build-game` to build the game client and server, but runs nothing  
+Run `npm run run-game` to runs the game (without building), served on `http://localhost:3000/`  
+Run `npm run brg` to execute both of the above, respectively  
+Run `npm run brgs` to build and run the server (use when running `ng serve`)  
 
 ## Development server
 
