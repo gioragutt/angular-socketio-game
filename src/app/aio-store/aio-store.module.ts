@@ -4,6 +4,7 @@ import { NgReduxModule, NgRedux, DevToolsExtension } from '@angular-redux/store'
 import { combineReducers } from 'redux';
 import * as actions from './actions';
 
+import { AioGameUpdatesService } from './aio-game-updates.service';
 import { AppState, INITIAL_STATE } from './model';
 import { id, players, bullets, chatMessages, mousePosition } from './reducers';
 
@@ -36,6 +37,7 @@ export class AioStoreModule {
         actions.IdActions,
         actions.PlayersActions,
         actions.MousePositionActions,
+        AioGameUpdatesService
       ]
     };
   };
