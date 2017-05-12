@@ -35,7 +35,6 @@ const getMousePosition = (canvas: ElementRef, event: MouseEvent): Position => {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AioGameComponent implements OnChanges {
-
   @Input() disableInput = false;
   @Input() height = 500;
   @Input() width = 500;
