@@ -5,18 +5,22 @@ import { combineReducers } from 'redux';
 import * as actions from './actions';
 
 import { AppState, INITIAL_STATE } from './model';
-import { id, players, bullets, chatMessages } from './reducers';
+import { id, players, bullets, chatMessages, mousePosition } from './reducers';
 
 const rootReducer = combineReducers<AppState>({
   id,
   players,
   bullets,
-  chatMessages
+  chatMessages,
+  mousePosition
 });
 
 @NgModule({
   imports: [
     CommonModule,
+    NgReduxModule
+  ],
+  exports: [
     NgReduxModule
   ],
   declarations: []
@@ -30,7 +34,8 @@ export class AioStoreModule {
         actions.BulletsActions,
         actions.ChatMessagesActions,
         actions.IdActions,
-        actions.PlayersActions
+        actions.PlayersActions,
+        actions.MousePositionActions,
       ]
     };
   };
