@@ -3,6 +3,7 @@
             height="500" width="500"
             (click)="onMouseClick()"
             (mousemove)="onMouseMove($event)"
+            (contextmenu)="$event.preventDefault()"
             (selectstart)="$event.preventDefault()">
     </canvas>
 </div>
