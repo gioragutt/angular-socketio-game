@@ -24,9 +24,9 @@ import { AioStoreModule } from './aio-store';
     AppRoutingModule,
     SharedModule.forRoot(),
     AioServerConnectionModule.forRoot(),
+    AioStoreModule.forRoot(),
     AioGameModule,
     AioChatModule,
-    AioStoreModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

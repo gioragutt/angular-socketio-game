@@ -19,6 +19,12 @@ export type DiffMethod = <T>(oldState: T[], newState: T[], keyMethod: KeyMethod<
  *
  * @param oldState array of items indicating collection before update
  * @param oldState array of items indicating collection before update
+ * @param keyMethod method that returns the key of the given type
+ * 
+ * @return DiffResult<T>
+ * additions are items in newState whose key (supplied by keyMethod) is not in oldState
+ * deletes are items in oldState whose key is not in newState
+ * updates are items whose key is in both oldState and newState, and that have (deeply) changed
  */
 export const diffMethod: DiffMethod = <T>(oldState: T[], newState: T[], keyMethod: KeyMethod<T>): DiffResult<T> => {
     const newKeys = _.map(newState, keyMethod);
