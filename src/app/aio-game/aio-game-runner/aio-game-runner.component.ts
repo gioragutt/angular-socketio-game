@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AioServerConnectionService, ServerEvent, EventArgs, ConnectionData } from '../../aio-server-connection';
+import { AioServerConnectionService, EventArgs } from '../../aio-server-connection';
 import { GameInputDisableService } from '../../shared';
+import { ServerUpdate, select, AppState, AioGameUpdatesService } from '../../aio-store';
+
+export const appStateToGameData = (state: AppState): ServerUpdate => {
+  const { players, bullets, mousePosition } = state;
+  return { players, bullets, mousePosition };
+};
 
 @Component({
   selector: 'aio-game-runner',
@@ -10,14 +16,11 @@ import { GameInputDisableService } from '../../shared';
 })
 export class AioGameRunnerComponent {
 
-  @ServerEvent() gameUpdate$: Observable<any>;
-  connectionData: ConnectionData;
+  @select(appStateToGameData) gameUpdate$: Observable<ServerUpdate>;
 
-  constructor(
-    private server: AioServerConnectionService,
-    public gameInput: GameInputDisableService) {
-      this.server.connectionData.subscribe(data => this.connectionData = data);
-  }
+  constructor(private server: AioServerConnectionService,
+              public gameInput: GameInputDisableService,
+              private updates: AioGameUpdatesService) { }
 
   emitToServer(args: EventArgs) {
     this.server.emit(args);
