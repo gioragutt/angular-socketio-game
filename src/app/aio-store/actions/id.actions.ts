@@ -4,13 +4,13 @@ import { AppState } from '../model';
 
 @Injectable()
 export class IdActions {
-  static ID_ASSIGN = 'ID_ASSIGN';
+  static ID_UPDATE = 'ID_UPDATE';
 
   constructor(private store: NgRedux<AppState>) { }
 
-  assignId(id: string) {
+  updateId(id: string) {
     this.store.dispatch({
-      type: IdActions.ID_ASSIGN,
+      type: IdActions.ID_UPDATE,
       payload: {
         id
       }
