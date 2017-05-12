@@ -14,7 +14,7 @@ export class AioChatComponent {
 
   constructor(private service: AioChatService) { }
 
-  private sendMessage(message: string) {
+  sendMessage(message: string) {
     this.service.sendMessage(message);
   };
 }

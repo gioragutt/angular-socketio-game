@@ -14,7 +14,10 @@ export class MessageInputComponent {
   constructor(public gameInput: GameInputDisableService) { }
 
   onSubmit() {
-    this.sendMessage.emit(this.messageInput.nativeElement.value);
-    this.messageInput.nativeElement.value = '';
+    const inputValue = this.messageInput.nativeElement.value.trim();
+    if (inputValue.length > 0) {
+      this.sendMessage.emit(inputValue);
+      this.messageInput.nativeElement.value = '';
+    }
   }
 }

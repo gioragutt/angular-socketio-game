@@ -18,6 +18,10 @@ export interface Client {
     player: Player;
 }
 
+export enum UserMessageType {
+    message, playerConnected
+};
+
 export class GameServer {
     static EVENT_CONNECTION = 'connection';
     static EVENT_DISCONNECT = 'disconnect';
@@ -37,11 +41,16 @@ export class GameServer {
     isRunning = false;
     gameLoopSubscription: Subscription;
 
-    sendMessageToUsers(source: string, message: string, type: 'message' | 'playerConnected') {
+    sendMessageToUsers(source: string, message: string, type: UserMessageType) {
+        if (message.length <= 0 && type !== UserMessageType.playerConnected) {
+            return;
+        };
+        const messageType = UserMessageType[type];
+        console.log(`Sending message from ${source} of type ${messageType}`, message);
         this.io.emit(GameServer.EVENT_MESSAGE, {
             source,
             message,
-            type
+            type: messageType
         });
     }
 
@@ -60,7 +69,7 @@ export class GameServer {
         socket.emit(GameServer.EVENT_INITIALGAMEDATA, {
             id: player.id
         });
-        this.sendMessageToUsers(player.id, '', 'playerConnected');
+        this.sendMessageToUsers(player.id, '', UserMessageType.playerConnected);
     }
 
     playerEvents(socket: SocketIO.Socket, player: Player): void {
@@ -83,7 +92,7 @@ export class GameServer {
 
         socket.on(GameServer.EVENT_DISCONNECT, this.disconnectPlayer(player.id));
         socket.on(GameServer.EVENT_MESSAGE, (message) => {
-            this.sendMessageToUsers(player.id, message, 'message');
+            this.sendMessageToUsers(player.id, message, UserMessageType.message);
         });
     }
 
