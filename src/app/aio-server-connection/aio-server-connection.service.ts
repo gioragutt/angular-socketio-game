@@ -44,14 +44,21 @@ export class AioServerConnectionService {
     console.log('AioServerConnectionService initialized!');
   }
 
-  on<T>(eventName: string): Observable<T> {
-    if (!this.cache[eventName]) {
-      this.cache[eventName] = new Observable<T>((subscriber: Subscriber<T>) => {
-        this.socket.on(eventName, (eventArgs) => {
-          subscriber.next(<T>eventArgs);
-        });
-      }).share();
+  private ensureEventNameIsCached<T>(eventName: string): void {
+    if (this.cache[eventName]) {
+      return;
     }
+
+    this.cache[eventName] = new Observable<T>((subscriber: Subscriber<T>) => {
+      this.socket.on(eventName, (eventArgs) => {
+        subscriber.next(<T>eventArgs);
+      });
+    })
+    .share();
+  }
+
+  on<T>(eventName: string): Observable<T> {
+    this.ensureEventNameIsCached<T>(eventName);
 
     return this.cache[eventName];
   }
