@@ -14,8 +14,17 @@ import { SharedModule } from '../shared';
     FormsModule,
     SharedModule
   ],
-  declarations: [AioChatComponent, MessageInputComponent, MessagesListComponent, MessagesListItemComponent],
-  providers: [AioChatService],
-  exports: [AioChatComponent]
+  declarations: [
+    AioChatComponent,
+    MessageInputComponent,
+    MessagesListComponent,
+    MessagesListItemComponent
+  ],
+  providers: [
+    AioChatService
+  ],
+  exports: [
+    AioChatComponent
+  ]
 })
 export class AioChatModule { }
