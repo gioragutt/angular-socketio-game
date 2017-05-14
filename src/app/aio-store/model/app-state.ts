@@ -1,4 +1,4 @@
-import { Player, Bullet, ChatMessage, Position } from './index';
+import { Player, Bullet, ChatMessage, Position } from '..';
 
 export const DefaultPosition: Position = {
     x: 0,

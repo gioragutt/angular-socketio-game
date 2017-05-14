@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ChatMessage } from '../index';
+import { ChatMessage } from '../../aio-store';
 
 @Component({
   selector: 'aio-messages-list-item',

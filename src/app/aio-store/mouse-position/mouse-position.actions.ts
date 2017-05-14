@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
-import { AppState, Position } from '../model';
+import { AppState, Position } from '../';
 
 @Injectable()
 export class MousePositionActions {

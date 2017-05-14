@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ChatMessage, AppState } from '../../aio-store/model';
+import { ChatMessage, AppState } from '../../aio-store';
 import { select } from '@angular-redux/store';
 import { AioChatService } from '../aio-chat.service';
 

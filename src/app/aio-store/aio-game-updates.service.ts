@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AioServerConnectionService, ServerEvent, EventArgs, ConnectionData } from '../aio-server-connection';
-import { BulletsActions, IdActions, PlayersActions, MousePositionActions } from './actions';
-import { ServerUpdate } from './model';
+import { BulletsActions, IdActions, PlayersActions, MousePositionActions, ServerUpdate } from './';
 
 @Injectable()
 export class AioGameUpdatesService {

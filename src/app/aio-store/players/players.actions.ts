@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
-import { AppState, Player } from '../model';
+import { AppState } from '../';
+import { Player } from './';
 
 @Injectable()
 export class PlayersActions {

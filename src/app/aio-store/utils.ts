@@ -1,11 +1,11 @@
 import * as _ from 'lodash';
-import { Player, Bullet } from './model';
+import { Player, Bullet } from './';
 
 export type KeyMethod<T> = (data: T) => any;
 
 export const playerKeyMethod: KeyMethod<Player> = (player: Player) => player.id;
 export const bulletKeyMethod: KeyMethod<Bullet> = (bullet: Bullet) => bullet.id;
- 
+
 export interface DiffResult<T> {
     additions: T[];
     updates: T[];

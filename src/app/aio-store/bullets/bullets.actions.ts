@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { AppState } from '../model';
+import { Bullet } from './';
 
 @Injectable()
-export class IdActions {
-  static ID_UPDATE = 'ID_UPDATE';
+export class BulletsActions {
+  static BULLETS_UPDATE = 'BULLETS_UPDATE';
 
   constructor(private store: NgRedux<AppState>) { }
 
-  updateId(id: string) {
+  updateBullets(bullets: Bullet[]) {
     this.store.dispatch({
-      type: IdActions.ID_UPDATE,
+      type: BulletsActions.BULLETS_UPDATE,
       payload: {
-        id
+        bullets
       }
     });
   }

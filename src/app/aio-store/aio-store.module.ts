@@ -2,11 +2,13 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgReduxModule, NgRedux, DevToolsExtension } from '@angular-redux/store';
 import { combineReducers } from 'redux';
-import * as actions from './actions';
 
-import { AioGameUpdatesService } from './aio-game-updates.service';
-import { AppState, INITIAL_STATE } from './model';
-import { id, players, bullets, chatMessages, mousePosition } from './reducers';
+import {
+  AioGameUpdatesService,
+  AppState, INITIAL_STATE,
+  id, players, bullets, chatMessages, mousePosition,
+  BulletsActions, ChatMessagesActions, IdActions, PlayersActions, MousePositionActions
+} from './';
 
 const rootReducer = combineReducers<AppState>({
   id,
@@ -32,11 +34,11 @@ export class AioStoreModule {
     return {
       ngModule: AioStoreModule,
       providers: [
-        actions.BulletsActions,
-        actions.ChatMessagesActions,
-        actions.IdActions,
-        actions.PlayersActions,
-        actions.MousePositionActions,
+        BulletsActions,
+        ChatMessagesActions,
+        IdActions,
+        PlayersActions,
+        MousePositionActions,
         AioGameUpdatesService
       ]
     };

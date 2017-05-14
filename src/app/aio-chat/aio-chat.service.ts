@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ServerEvent, AioServerConnectionService } from '../aio-server-connection';
 import { Observable } from 'rxjs/Observable';
-import { ChatMessage, AppState } from '../aio-store/model';
-import { ChatMessagesActions } from '../aio-store/actions';
+import { ChatMessage, AppState, ChatMessagesActions } from '../aio-store';
 
 const randomColor = () => {
   const letters = '0123456789ABCDEF';
