@@ -1,5 +1,1 @@
-import { ServerEvent } from './server-event';
-
-export {
-    ServerEvent
-};
+export * from './server-event';
